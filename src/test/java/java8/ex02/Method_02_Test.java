@@ -51,17 +51,11 @@ public class Method_02_Test {
             }
         
         public String format(){
-        	
-        	int cpt = 0;
+        
         	String nbPersons = new String();
         	
-        	for (Person people: findAll()){
-        		
-        		cpt++;
-        		
-        	}
         	
-        	nbPersons += "DaoA["+cpt+" persons]";
+        	nbPersons = "DaoA"+IDao.super.format();
         	return nbPersons;
        
         }
