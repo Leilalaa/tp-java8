@@ -15,6 +15,22 @@ public class Method_02_Test {
     // tag::IDao[]
     interface IDao {
         List<Person> findAll();
+        
+        default String format(){
+        	
+        	int cpt = 0;
+        	String nbPersons = new String();
+        	
+        	for (Person person: findAll()){
+        		
+        		cpt++;
+        		
+        	}
+        	
+        	nbPersons += "["+cpt+" persons]";
+        	return nbPersons;
+        	
+        }
 
         // TODO créer une méthode String format()
         // TODO la méthode retourne une chaîne de la forme [<nb_personnes> persons]
@@ -29,7 +45,25 @@ public class Method_02_Test {
 
         @Override
         public List<Person> findAll() {
-            return people;
+            
+        	return people;           	
+            	
+            }
+        
+        public String format(){
+        	
+        	int cpt = 0;
+        	String nbPersons = new String();
+        	
+        	for (Person people: findAll()){
+        		
+        		cpt++;
+        		
+        	}
+        	
+        	nbPersons += "DaoA["+cpt+" persons]";
+        	return nbPersons;
+       
         }
 
         // TODO redéfinir la méthode String format()
@@ -47,6 +81,7 @@ public class Method_02_Test {
 
         // TODO invoquer la méthode format() pour que le test soit passant
         String result = null;
+        result = daoA.format();
 
         "DaoA[20 persons]".equals(result);
     }
