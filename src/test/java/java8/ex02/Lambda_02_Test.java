@@ -14,15 +14,15 @@ import java.util.List;
 public class Lambda_02_Test {
 
 	// tag::PersonToAccountMapper[]
-	interface PersonToAccountMapper {
-		Account map(Person p);
+	interface PersonToAccountMapper<T> {
+		T map(Person p);
 	}
 	// end::PersonToAccountMapper[]
 
 	// tag::map[]
-	private List<Account> map(List<Person> personList, PersonToAccountMapper mapper) {
+	private <T> List<T> map(List<Person> personList, PersonToAccountMapper<T> mapper) {
 
-		List<Account> accounts = new ArrayList<Account>();
+		List<T> accounts = new ArrayList<>();
 
 		for (Person p : personList) {
 
