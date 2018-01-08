@@ -5,59 +5,87 @@ import java8.data.Data;
 import java8.data.Person;
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.List;
-
 
 /**
  * Exercice 02 - Map
  */
 public class Lambda_02_Test {
 
-    // tag::PersonToAccountMapper[]
-    interface PersonToAccountMapper {
-        Account map(Person p);
-    }
-    // end::PersonToAccountMapper[]
+	// tag::PersonToAccountMapper[]
+	interface PersonToAccountMapper {
+		Account map(Person p);
+	}
+	// end::PersonToAccountMapper[]
 
-    // tag::map[]
-    private List<Account> map(List<Person> personList, PersonToAccountMapper mapper) {
-        // TODO implémenter la méthode pour transformer une liste de personnes en liste de comptes
-        return null;
-    }
-    // end::map[]
+	// tag::map[]
+	private List<Account> map(List<Person> personList, PersonToAccountMapper mapper) {
 
+		List<Account> accounts = new ArrayList<Account>();
 
-    // tag::test_map_person_to_account[]
-    @Test
-    public void test_map_person_to_account() throws Exception {
+		for (Person p : personList) {
 
-        List<Person> personList = Data.buildPersonList(100);
+			accounts.add(mapper.map(p));
 
-        // TODO transformer la liste de personnes en liste de comptes
-        // TODO tous les objets comptes ont un solde à 100 par défaut
-        List<Account> result = map(personList, null);
+		}
 
-        assert result.size() == personList.size();
-        for (Account account : result) {
-            assert account.getBalance().equals(100);
-            assert account.getOwner() != null;
-        }
-    }
-    // end::test_map_person_to_account[]
+		return accounts;
 
-    // tag::test_map_person_to_firstname[]
-    @Test
-    public void test_map_person_to_firstname() throws Exception {
+	}
+	// end::map[]
 
-        List<Person> personList = Data.buildPersonList(100);
+	// tag::test_map_person_to_account[]
+	@Test
+	public void test_map_person_to_account() throws Exception {
 
-        // TODO transformer la liste de personnes en liste de prénoms
-        List<String> result = null;
+		List<Person> personList = Data.buildPersonList(100);
+		PersonToAccountMapper mapperAcc = a -> new Account(a, 100);
 
-        assert result.size() == personList.size();
-        for (String firstname : result) {
-            assert firstname.startsWith("first");
-        }
-    }
-    // end::test_map_person_to_firstname[]
+		List<Account> result = map(personList, mapperAcc);
+
+		assert result.size() == personList.size();
+		for (Account account : result) {
+			assert account.getBalance().equals(100);
+			assert account.getOwner() != null;
+		}
+	}
+	// end::test_map_person_to_account[]
+
+	// tag::test_map_person_to_firstname[]
+
+	// On créé un mapper qui transforme la liste de personnes en liste de prenom
+	interface PersonToNameMapper {
+		String map(Person p);
+	}
+
+	private List<String> map(List<Person> personList, PersonToNameMapper mapper) {
+
+		List<String> noms = new ArrayList<String>();
+
+		for (Person p : personList) {
+
+			noms.add(mapper.map(p));
+
+		}
+
+		return noms;
+
+	}
+
+	@Test
+	public void test_map_person_to_firstname() throws Exception {
+		
+		PersonToNameMapper mapperName = p -> new String(p.getFirstname());
+
+		List<Person> personList = Data.buildPersonList(100);
+
+		List<String> result = map(personList, mapperName);
+
+		assert result.size() == personList.size();
+		for (String firstname : result) {
+			assert firstname.startsWith("first");
+		}
+	}
+	// end::test_map_person_to_firstname[]
 }
